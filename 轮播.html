@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0px;
+            margin: 0px;
+        }
+        
+        ul {
+            list-style: none;
+        }
+        
+        .wrap {
+            width: 800px;
+            height: 500px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .wrap img {
+            width: 800px;
+            height: 500px;
+            vertical-align: middle;
+            border: none;
+        }
+        
+        .wrap .img li {
+            position: absolute;
+            left: 0;
+            right: 0;
+            display: none;
+        }
+        
+        .img li:first-child() {
+            display: block;
+        }
+        
+        .arrow {
+            position: absolute;
+            top: 50%;
+            margin-top: -30px;
+            width: 30px;
+            height: 60px;
+            background: rgba(0, 0, 0, 3);
+            background-color: #fff;
+            text-align: center;
+            line-height: 60px;
+            font-size: 40px;
+            cursor: pointer;
+        }
+        
+        .wrap .a-left {
+            left: 0px;
+        }
+        
+        .wrap .a-right {
+            right: 0px;
+        }
+        
+        .arrow:hover {
+            background-color: rgb(66, 64, 64);
+            display: block;
+        }
+        
+        .wrap .num {
+            position: absolute;
+            left: 50px;
+            bottom: 20px;
+            z-index: 1;
+        }
+        
+        .wrap .num li {
+            width: 15px;
+            height: 15px;
+            display: inline-block;
+            background: #666;
+            text-align: center;
+            line-height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .wrap .num li.current {
+            background: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <ul class="img">
+            <li>
+                <a href="#"><img src="images/1.jpg"></a>
+            </li>
+            <li>
+                <a href="#"><img src="images/2.jpg"></a>
+            </li>
+            <li>
+                <a href="#"><img src="images/3.jpg"></a>
+            </li>
+            <li>
+                <a href="#"><img src="images/4.jpg"></a>
+            </li>
+            <li>
+                <a href="#"><img src="images/5.jpg"></a>
+            </li>
+            <li>
+                <a href="#"><img src="images/6.jpg"></a>
+            </li>
+            <li>
+                <a href="#"><img src="images/7.jpg"></a>
+            </li>
+            <li>
+                <a href="#"><img src="images/8.jpg"></a>
+            </li>
+        </ul>
+
+        <div class="num">
+            <li class="current"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </div>
+        <div class="arrow a-left">
+            <</div>
+                <div class="arrow a-right">></div>
+        </div>
+</body>
+<script src="js/jquery.js"></script>
+<script>
+    $(function() {
+        var index = 0;
+        var lis = $('.img li');
+        lis.first().show();
+        $('.a-right').click(mr);
+
+        function mr() {
+            index++;
+            if (index == lis.length) {
+                index = 0;
+            }
+            lis.eq(index).fadeIn().siblings().fadeOut();
+            $('.num li').eq(index).addClass('current').siblings().removeClass('current');
+        }
+
+        $('.a-left').click(ml);
+
+        function ml() {
+            index--;
+            if (index < 0) {
+                index = lis.length - 1;
+            }
+            lis.eq(index).fadeIn().siblings().fadeOut();
+            $('.num li').eq(index).addClass('current').siblings().removeClass('current');
+        }
+
+        btns = $('.num li');
+        for (var i = 0; i < btns.length; i++) {
+            btns.eq(i).attr('index', i);
+            btns.eq(i).mouseover(fn);
+        }
+
+        function fn() {
+            var ii = $(this).attr('index');
+            lis.eq(ii).fadeIn().siblings().fadeOut();
+            $(this).addClass('current').siblings().removeClass('current');
+            index = ii;
+        }
+
+        var timeId = setInterval(mr, 2000);
+        $('.wrap').hover(function() {
+            clearInterval(timeId);
+        }, function() {
+            timeId = setInterval(mr, 2000);
+        })
+    })
+</script>
+
+</html>
